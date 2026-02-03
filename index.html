@@ -70,10 +70,6 @@
             background: rgba(0,0,0,0.65); cursor: pointer; color: #fff;
         }
 
-        .btn-frame { border-color: var(--accent); }
-
-        .frame-selector { display: flex; gap: 10px; }
-
         .capture-controls { display: flex; gap: 20px; align-items: center; }
 
         .action-btn-mini {
@@ -114,14 +110,13 @@
             transition:.1s; z-index:10;
         }
 
-        /* ----- AJUSTE CIRÚRGICO: CÍRCULOS HORIZONTAIS NO RODAPÉ ----- */
         .circle-panel {
             position: absolute;
-            bottom: 200px;           /* Distância do rodapé */
-            left: 50%;               /* Centralização horizontal */
+            bottom: 200px;
+            left: 50%;
             transform: translateX(-50%);
-            display: none;           /* Exibido via JS */
-            flex-direction: row;     /* Alinhamento horizontal */
+            display: none;
+            flex-direction: row;
             gap: 15px;
             z-index: 40;
             pointer-events: auto;
@@ -180,10 +175,6 @@
             </div>
 
             <div class="controls-bottom">
-                <div class="frame-selector">
-                    <button class="btn btn-frame" id="m1Btn">Foto 1</button>
-                </div>
-
                 <div class="capture-controls">
                     <button id="capturePhotoBtn" class="action-btn-mini">📷</button>
                     <button id="captureVideoBtn" class="action-btn-large">
@@ -213,7 +204,6 @@
 </div>
 
 <script>
-// Todo o seu JavaScript original foi mantido intacto para preservar a funcionalidade
 const MOLDURAS = { 'm1': { type:'image', src:'moldura1.png' } };
 let currentMolduraKey = 'm1';
 let usingFrontCamera = true;
@@ -254,13 +244,12 @@ function updateCirclesVisibility() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    setMoldura(document.getElementById('m1Btn'), 'm1');
+    setMoldura('m1'); 
 });
 
 document.getElementById('startBtn').addEventListener('click', () => initCamera(true));
 document.getElementById('switchBtn').addEventListener('click', switchCamera);
 document.getElementById('newPhotoBtn').addEventListener('click', resetCamera);
-document.getElementById('m1Btn').addEventListener('click', (e) => { setMoldura(e.target, 'm1'); updateCirclesVisibility(); });
 
 capturePhotoBtn.addEventListener('click', takePhoto);
 captureVideoBtn.addEventListener('click', () => { isRecording ? stopRecording() : startRecording(); });
@@ -272,9 +261,7 @@ circleButtons.forEach(btn => {
     });
 });
 
-function setMoldura(btn, key) {
-    document.querySelectorAll('.frame-selector .btn').forEach(b => b.classList.remove('btn-frame'));
-    if (btn) btn.classList.add('btn-frame');
+function setMoldura(key) {
     currentMolduraKey = key;
     const moldura = MOLDURAS[key];
     molduraImagePreview.style.display = 'none';
@@ -462,7 +449,7 @@ function handleStreamSuccess(newStream) {
         video.play();
         startScreen.style.display = 'none';
         cameraUI.style.display = 'flex';
-        setMoldura(document.getElementById('m1Btn'), 'm1');
+        setMoldura('m1'); 
         updateCirclesVisibility();
     };
 }
